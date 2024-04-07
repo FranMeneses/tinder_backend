@@ -29,6 +29,8 @@ type Query {
 type Mutation {
   createUsers(userInput: CreateUserInput!): Boolean!
   loginUsersTest(loginInput: LoginUserInput!): String!
+  updateUser(userId: String!, updateInput: UpdateUserInput!): Boolean!
+  deleteUser(userId: String!): Boolean!
   createMatch(createMatchDto: CreateMatchDto!): Match!
 }
 
@@ -41,6 +43,17 @@ input CreateUserInput {
 input LoginUserInput {
   password: String!
   mail: String!
+}
+
+input UpdateUserInput {
+  name: String
+  mail: String
+  password: String
+  description: String
+  phone: String
+  career: String
+  year: Int
+  photo: String
 }
 
 input CreateMatchDto {
