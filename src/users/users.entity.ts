@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 
@@ -39,6 +39,10 @@ export class Users extends mongoose.Document {
     @Prop()
     @Field({ nullable: true })
     photo?: string;
+    
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }], default: [] })
+    @Field(type => [ID], { nullable: 'itemsAndList' })
+    likes: mongoose.Schema.Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

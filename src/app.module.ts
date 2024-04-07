@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as dotenv from 'dotenv';
 import { UsersModule } from './users/users.module';
+import { MatchModule } from './match/match.module';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ dotenv.config();
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URI),
     UsersModule,
+    MatchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
