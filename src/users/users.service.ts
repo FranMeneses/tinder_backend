@@ -5,13 +5,14 @@ import { Users } from './users.entity';
 import { CreateUserInput } from './dtos/create-user.input';
 import { LoginUserInput } from './dtos/user-login.input';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUserInput } from './dtos/update-user.input';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private usersModel: Model<Users>,
     private jwtService: JwtService
-  ) {}
+  ) { }
 
   async findAll(): Promise<Users[]> {
     return this.usersModel.find().exec();
@@ -19,12 +20,12 @@ export class UsersService {
 
   async createUser(user: CreateUserInput): Promise<boolean> {
     try {
-        const newUser = new this.usersModel(user);
-        await newUser.save();
-        return true;
+      const newUser = new this.usersModel(user);
+      await newUser.save();
+      return true;
     } catch (error) {
-        console.error('Error creating user:', error);
-        return false; 
+      console.error('Error creating user:', error);
+      return false;
     }
   }
 
@@ -40,11 +41,23 @@ export class UsersService {
     return this.usersModel.findOne({ mail: correo }).exec();
   }
 
-  async deleteUser(mail: string): Promise<boolean> {
-    const result = await this.usersModel.deleteOne({ mail }).exec();
-    return result.deletedCount > 0;
+  async updateUser(userId: string, user: UpdateUserInput): Promise<boolean> {
+    try {
+      const updatedUser = await this.usersModel.findByIdAndUpdate(userId, user, { new: true }).exec();
+      return updatedUser != null;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return false;
+    }
   }
 
-  
-
+  async deleteUser(userId: string): Promise<boolean> {
+    try {
+      const result = await this.usersModel.findByIdAndDelete(userId).exec();
+      return result != null;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return false;
+    }
+  }
 }

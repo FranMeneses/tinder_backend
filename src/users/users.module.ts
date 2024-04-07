@@ -24,4 +24,4 @@ import { Users, UserSchema } from './users.entity';
   ],
   providers: [UsersResolver, UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }

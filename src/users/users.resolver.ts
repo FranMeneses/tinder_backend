@@ -5,6 +5,7 @@ import { CreateUserInput } from './dtos/create-user.input';
 import { LoginUserInput } from './dtos/user-login.input';
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
+import { UpdateUserInput } from './dtos/update-user.input';
 
 @Resolver()
 export class UsersResolver {
@@ -27,7 +28,6 @@ export class UsersResolver {
       const token = await this.usersService.loginUserTest(loginInput);
 
       if (token) {
-
         return token;
       } else {
         return "";
@@ -60,8 +60,19 @@ export class UsersResolver {
     }
   }
 
-  
+  @Mutation(() => Boolean)
+  async updateUser(
+    @Args('userId') userId: string,
+    @Args('updateInput') updateInput: UpdateUserInput
+  ): Promise<boolean> {
+    return this.usersService.updateUser(userId, updateInput);
+  }
 
+  @Mutation(() => Boolean)
+  async deleteUser(
+    @Args('userId') userId: string
+  ): Promise<boolean> {
+    return this.usersService.deleteUser(userId);
 }
 
-
+}
