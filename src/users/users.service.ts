@@ -18,6 +18,10 @@ export class UsersService {
     return this.usersModel.find().exec();
   }
 
+  async findUserById(userId: string): Promise<Users | null> {
+    return this.usersModel.findById(userId).exec();
+  }  
+
   async createUser(user: CreateUserInput): Promise<boolean> {
     try {
       const newUser = new this.usersModel(user);
@@ -32,7 +36,7 @@ export class UsersService {
   async loginUserTest(user: LoginUserInput): Promise<string | null> {
     const foundUser = await this.usersModel.findOne({ mail: user.mail }).exec();
     if (foundUser && foundUser.password === user.password) {
-      return this.jwtService.sign({ email: foundUser.mail });
+      return this.jwtService.sign({ id: foundUser._id });
     }
     return null;
   }
