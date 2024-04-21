@@ -19,4 +19,20 @@ export class MatchResolver {
     const { user1, user2 } = createMatchDto;
     return this.matchService.create(user1, user2);
   }
+
+  @Mutation(returns => Boolean)
+  async getMatch(
+    @Args('loggedInUser') loggedInUser: string,
+    @Args('likedUser') likedUser: string,
+  ) {
+    return this.matchService.checkMatch(loggedInUser, likedUser);
+  }
+
+  @Mutation(returns => Match, { nullable: true })
+  async likeUser(
+    @Args('userId') userId: string,
+    @Args('likedUserId') likedUserId: string,
+  ) {
+    return this.matchService.likeUser(userId, likedUserId);
+  }
 }
