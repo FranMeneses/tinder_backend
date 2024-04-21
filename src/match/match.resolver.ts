@@ -35,4 +35,9 @@ export class MatchResolver {
   ) {
     return this.matchService.likeUser(userId, likedUserId);
   }
+
+  @Query(returns => [String])
+  async getUserMatches(@Args('userId') userId: string) {
+    return this.matchService.getUserMatches(userId);
+  }
 }

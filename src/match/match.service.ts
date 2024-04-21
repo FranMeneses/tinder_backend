@@ -40,6 +40,13 @@ export class MatchService {
     return user1Likes.includes(user2) && user2Likes.includes(user1);
   }
 
+  async getUserMatches(userId: string): Promise<string[]> {
+    const matches = await this.matchModel.find({
+      $or: [{ user1: userId }, { user2: userId }],
+    });
+    return matches.map(match => (match.user1.toString() === userId ? match.user2.toString() : match.user1.toString()));
+  }
+
   async findAll(): Promise<Match[]> {
     return this.matchModel.find().exec();
   }
