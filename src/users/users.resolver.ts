@@ -16,6 +16,11 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @Query(() => Users, { nullable: true })
+  async getUserById(@Args('userId') userId: string): Promise<Users | null> {
+    return this.usersService.findUserById(userId);
+  }
+
   @Mutation(() => Boolean)
   async createUsers(@Args('userInput') userInput: CreateUserInput): Promise<boolean> {
     return this.usersService.createUser(userInput);
@@ -24,9 +29,7 @@ export class UsersResolver {
   @Mutation(() => String)
   async loginUsersTest(@Args('loginInput') loginInput: LoginUserInput) {
     try {
-
       const token = await this.usersService.loginUserTest(loginInput);
-
       if (token) {
         return token;
       } else {
