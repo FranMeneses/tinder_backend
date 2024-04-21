@@ -34,6 +34,12 @@ export class MatchService {
     return null;
   }
 
+  async checkMatch(user1: string, user2: string): Promise<boolean> {
+    const user1Likes = (await this.userModel.findById(user1)).likes.map(id => id.toString());
+    const user2Likes = (await this.userModel.findById(user2)).likes.map(id => id.toString());
+    return user1Likes.includes(user2) && user2Likes.includes(user1);
+  }
+
   async findAll(): Promise<Match[]> {
     return this.matchModel.find().exec();
   }

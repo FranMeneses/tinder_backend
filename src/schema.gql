@@ -33,6 +33,7 @@ type Mutation {
   updateUser(userId: String!, updateInput: UpdateUserInput!): Boolean!
   deleteUser(userId: String!): Boolean!
   createMatch(createMatchDto: CreateMatchDto!): Match!
+  getMatch(loggedInUser: String!, likedUser: String!): Boolean!
 }
 
 input CreateUserInput {
