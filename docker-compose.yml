@@ -16,7 +16,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - MONGO_URI=''
+      - MONGO_URI=mongodb+srv://francMeneses:ucnT1nd3r@cluster0.hfea13c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
     networks:
       - app-network
 
