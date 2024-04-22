@@ -12,6 +12,17 @@ export class MatchService {
   ) {}
 
   async create(user1: string, user2: string): Promise<Match> {
+    const existingMatch = await this.matchModel.findOne({
+      $or: [
+        { user1: user1, user2: user2 },
+        { user1: user2, user2: user1 },
+      ],
+    });
+
+    if (existingMatch) {
+      throw new Error('Match already exists');
+    }
+
     const match = new this.matchModel({ user1, user2 });
     return match.save();
   }
